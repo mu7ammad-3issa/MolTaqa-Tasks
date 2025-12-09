@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seed/core/routing/routes.dart';
+import 'package:seed/features/auth/presentation/screens/login_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -9,7 +10,7 @@ class AppRouter {
     switch (settings.name) {
       case Routes.loginScreen:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(),
+          builder: (_) => const LoginScreen(),
           settings: settings,
         );
       case Routes.otpScreen:

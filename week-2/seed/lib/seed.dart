@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:seed/core/routing/app_router.dart';
+import 'package:seed/core/routing/routes.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Seed extends StatelessWidget {
+  final AppRouter appRouter;
+  const Seed({super.key, required this.appRouter});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Scaffold());
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.loginScreen,
+        onGenerateRoute: appRouter.generateRoute,
+      ),
+    );
   }
 }
