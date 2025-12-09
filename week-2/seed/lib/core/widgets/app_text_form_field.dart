@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:seed/core/helpers/base_extensions/context/padding.dart';
 import 'package:seed/core/helpers/helper_methods/spacing.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 import 'package:seed/core/theming/app_styles.dart';
@@ -45,7 +46,7 @@ class AppTextFormField extends StatelessWidget {
           style: AppStyles.font16TextPrimaryMedium,
           textDirection: TextDirection.rtl,
         ),
-        label != null ? verticalSpace(8) : SizedBox.shrink(),
+        label != '' ? verticalSpace(8) : SizedBox.shrink(),
         TextFormField(
           controller: controller,
           textDirection: textDirection,
@@ -84,7 +85,12 @@ class AppTextFormField extends StatelessWidget {
             ),
             hintStyle: hintStyle ?? TextStyles.font14LightGrayRegular,
             hintText: hintText,
-            suffixIcon: suffixIcon,
+            hintTextDirection: TextDirection.rtl,
+            suffixIcon: Padding(
+              padding: context.only(right: 8.w),
+              child: suffixIcon,
+            ),
+            suffixIconConstraints: BoxConstraints(),
             fillColor: backgroundColor ?? ColorsManager.white,
             filled: true,
           ),

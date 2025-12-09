@@ -10,6 +10,12 @@ class Assets {
 
   static const String fontsAvenirRegular = "assets/fonts/Avenir-Regular.ttf";
 
+  static const String iconsMobile = "assets/icons/mobile.svg";
+
+  static const String iconsSms = "assets/icons/sms.svg";
+
+  static const String iconsUser = "assets/icons/user.svg";
+
   static const String imagesLoginLogoWithBackground = "assets/images/login_logo_with_background.png";
 }
 

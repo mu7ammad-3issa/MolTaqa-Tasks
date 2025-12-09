@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:seed/core/theming/app_styles.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 
 class AppTextButton extends StatelessWidget {
@@ -10,7 +11,7 @@ class AppTextButton extends StatelessWidget {
   final double? buttonWidth;
   final double? buttonHeight;
   final String buttonText;
-  final TextStyle textStyle;
+  final TextStyle? textStyle;
   final VoidCallback onPressed;
   final Color? borderColor;
   const AppTextButton({
@@ -22,7 +23,7 @@ class AppTextButton extends StatelessWidget {
     this.buttonHeight,
     this.buttonWidth,
     required this.buttonText,
-    required this.textStyle,
+    this.textStyle,
     required this.onPressed,
     this.borderColor,
   });
@@ -55,7 +56,7 @@ class AppTextButton extends StatelessWidget {
       ),
 
       onPressed: onPressed,
-      child: Text(buttonText, style: textStyle),
+      child: Text(buttonText, style: textStyle ?? AppStyles.font14WhiteHeavy),
     );
   }
 }
