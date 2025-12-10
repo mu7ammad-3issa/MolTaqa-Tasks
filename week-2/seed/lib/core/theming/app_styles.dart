@@ -55,6 +55,18 @@ class AppStyles {
     fontWeight: FontWeightHelper.light,
     color: ColorsManager.textPrimary,
   );
+  static TextStyle font20TextPrimaryMedium = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 20.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: ColorsManager.textPrimary,
+  );
+  static TextStyle font14PrimaryLight = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.light,
+    color: ColorsManager.primary,
+  );
 
   static TextStyle font14PrimaryHeavy = TextStyle(
     fontFamily: fontFamily,
@@ -82,6 +94,13 @@ class AppStyles {
     fontSize: 14.sp,
     fontWeight: FontWeightHelper.medium,
     color: ColorsManager.textPrimary,
+  );
+
+  static TextStyle font12TextSecondaryLight = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 12.sp,
+    fontWeight: FontWeightHelper.light,
+    color: ColorsManager.textSecondary,
   );
 }
 

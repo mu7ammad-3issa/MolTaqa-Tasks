@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonText: 'تسجيل الدخول',
                       textStyle: AppStyles.font14WhiteHeavy,
                       onPressed: () {
-                        context.pushNamed(Routes.verifyOtpScreen);
+                        context.pushNamed(Routes.homeScreen);
                       },
                     ),
                     verticalSpace(8),
