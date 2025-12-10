@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonText: 'تسجيل الدخول',
                       textStyle: AppStyles.font14WhiteHeavy,
                       onPressed: () {
-                        context.pushNamed(Routes.homeScreen);
+                        context.pushNamed(Routes.mainScreen);
                       },
                     ),
                     verticalSpace(8),

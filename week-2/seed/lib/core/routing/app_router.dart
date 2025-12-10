@@ -3,7 +3,8 @@ import 'package:seed/core/routing/routes.dart';
 import 'package:seed/features/auth/presentation/screens/login_screen.dart';
 import 'package:seed/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:seed/features/auth/presentation/screens/verify_otp_screen.dart';
-import 'package:seed/features/home/presentation/home_screen.dart';
+import 'package:seed/features/home/presentation/screens/home_screen.dart';
+import 'package:seed/features/main/presentation/main_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -29,6 +30,11 @@ class AppRouter {
       case Routes.homeScreen:
         return MaterialPageRoute(
           builder: (_) => const HomeScreen(),
+          settings: settings,
+        );
+      case Routes.mainScreen:
+        return MaterialPageRoute(
+          builder: (_) => const MainScreen(),
           settings: settings,
         );
       default:
