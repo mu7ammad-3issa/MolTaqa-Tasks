@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seed/core/routing/routes.dart';
 import 'package:seed/features/auth/presentation/screens/login_screen.dart';
 import 'package:seed/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:seed/features/auth/presentation/screens/verify_otp_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -19,9 +20,9 @@ class AppRouter {
           builder: (_) => const SignUpScreen(),
           settings: settings,
         );
-      case Routes.otpScreen:
+      case Routes.verifyOtpScreen:
         return MaterialPageRoute(
-          builder: (_) => const Scaffold(),
+          builder: (_) => const VerifyOtpScreen(),
           settings: settings,
         );
       case Routes.homeScreen:

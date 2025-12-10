@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:seed/core/constants/app_assets.dart';
+import 'package:seed/core/helpers/base_extensions/context/navigation.dart';
 import 'package:seed/core/helpers/base_extensions/context/padding.dart';
 import 'package:seed/core/helpers/helper_methods/spacing.dart';
 import 'package:seed/core/helpers/helper_methods/validators.dart';
+import 'package:seed/core/routing/routes.dart';
 import 'package:seed/core/theming/app_styles.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 import 'package:seed/core/widgets/app_text_button.dart';
@@ -69,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonText: 'تسجيل الدخول',
                       textStyle: AppStyles.font14WhiteHeavy,
                       onPressed: () {
-                        // Handle login
+                        context.pushNamed(Routes.verifyOtpScreen);
                       },
                     ),
                     verticalSpace(8),
