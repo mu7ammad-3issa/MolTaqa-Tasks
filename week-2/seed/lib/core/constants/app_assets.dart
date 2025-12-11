@@ -12,11 +12,17 @@ class Assets {
 
   static const String iconsAddCircle = "assets/icons/add-circle.svg";
 
+  static const String iconsAddCircleFilled = "assets/icons/add-circle-filled.svg";
+
   static const String iconsBuliding = "assets/icons/buliding.svg";
 
   static const String iconsDocument = "assets/icons/document.svg";
 
+  static const String iconsDocumentFilled = "assets/icons/document-filled.svg";
+
   static const String iconsHome = "assets/icons/home.svg";
+
+  static const String iconsHomeFilled = "assets/icons/home-filled.svg";
 
   static const String iconsLocation = "assets/icons/location.svg";
 
@@ -27,6 +33,8 @@ class Assets {
   static const String iconsMonitor = "assets/icons/monitor.svg";
 
   static const String iconsMore = "assets/icons/more.svg";
+
+  static const String iconsMoreFilled = "assets/icons/more-filled.svg";
 
   static const String iconsPercentageCircle = "assets/icons/percentage-circle.svg";
 
