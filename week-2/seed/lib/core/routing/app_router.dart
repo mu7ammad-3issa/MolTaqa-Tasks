@@ -3,6 +3,7 @@ import 'package:seed/core/routing/routes.dart';
 import 'package:seed/features/auth/presentation/screens/login_screen.dart';
 import 'package:seed/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:seed/features/auth/presentation/screens/verify_otp_screen.dart';
+import 'package:seed/features/home/presentation/screens/all_projects_screen.dart';
 import 'package:seed/features/home/presentation/screens/home_screen.dart';
 import 'package:seed/features/main/presentation/main_screen.dart';
 
@@ -35,6 +36,11 @@ class AppRouter {
       case Routes.mainScreen:
         return MaterialPageRoute(
           builder: (_) => const MainScreen(),
+          settings: settings,
+        );
+      case Routes.allProjectsScreen:
+        return MaterialPageRoute(
+          builder: (_) => const AllProjectsScreen(),
           settings: settings,
         );
       default:

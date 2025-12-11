@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:seed/core/constants/app_assets.dart';
+import 'package:seed/core/helpers/base_extensions/context/navigation.dart';
 import 'package:seed/core/helpers/helper_methods/spacing.dart';
+import 'package:seed/core/routing/routes.dart';
 import 'package:seed/features/home/presentation/widgets/project_card.dart';
 import 'package:seed/features/home/presentation/widgets/section_header.dart';
 
@@ -16,7 +18,7 @@ class ProjectsSection extends StatelessWidget {
         SectionHeader(
           title: 'المشاريع',
           onSeeAllTap: () {
-            // Handle see all logic
+            context.pushNamed(Routes.allProjectsScreen);
           },
         ),
         verticalSpace(16.h),

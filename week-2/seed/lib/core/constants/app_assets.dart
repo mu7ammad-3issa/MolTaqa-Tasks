@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_single_quotes
 class Assets {
   Assets._();
-  
+
   static const String fontsAvenirBlack = "assets/fonts/Avenir-Black.ttf";
 
   static const String fontsAvenirHeavy = "assets/fonts/Avenir-Heavy.ttf";
@@ -12,7 +12,8 @@ class Assets {
 
   static const String iconsAddCircle = "assets/icons/add-circle.svg";
 
-  static const String iconsAddCircleFilled = "assets/icons/add-circle-filled.svg";
+  static const String iconsAddCircleFilled =
+      "assets/icons/add-circle-filled.svg";
 
   static const String iconsBuliding = "assets/icons/buliding.svg";
 
@@ -36,7 +37,8 @@ class Assets {
 
   static const String iconsMoreFilled = "assets/icons/more-filled.svg";
 
-  static const String iconsPercentageCircle = "assets/icons/percentage-circle.svg";
+  static const String iconsPercentageCircle =
+      "assets/icons/percentage-circle.svg";
 
   static const String iconsSms = "assets/icons/sms.svg";
 
@@ -46,8 +48,8 @@ class Assets {
 
   static const String imagesHomeLogo = "assets/images/home_logo.svg";
 
-  static const String imagesLoginLogoWithBackground = "assets/images/login_logo_with_background.png";
+  static const String imagesLoginLogoWithBackground =
+      "assets/images/login_logo_with_background.png";
 
   static const String imagesProjectCard = "assets/images/project_card.png";
 }
-
