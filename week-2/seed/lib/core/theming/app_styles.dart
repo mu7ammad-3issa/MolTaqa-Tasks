@@ -102,6 +102,27 @@ class AppStyles {
     fontWeight: FontWeightHelper.light,
     color: ColorsManager.textSecondary,
   );
+
+  // status styles
+  static TextStyle font14StatusGrayLight = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.light,
+    color: ColorsManager.gray,
+  );
+
+  static TextStyle font14StatusWhiteMedium = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.medium,
+    color: ColorsManager.white,
+  );
+  static TextStyle font14StatusWhiteLight = TextStyle(
+    fontFamily: fontFamily,
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.light,
+    color: ColorsManager.white,
+  );
 }
 
 class TextStyles {
