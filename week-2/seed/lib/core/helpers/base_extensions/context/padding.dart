@@ -29,21 +29,9 @@ extension AppPadding on BuildContext {
     double bottom = 0,
     double left = 0,
     double right = 0,
-  }) =>
-      EdgeInsets.only(
-        top: top,
-        bottom: bottom,
-        left: left,
-        right: right,
-      );
+  }) => EdgeInsets.only(top: top, bottom: bottom, left: left, right: right);
 
   /// Applies horizontal and vertical padding.
-  EdgeInsets symmetric({
-    double horizontal = 0,
-    double vertical = 0,
-  }) =>
-      EdgeInsets.symmetric(
-        horizontal: horizontal,
-        vertical: vertical,
-      );
+  EdgeInsets symmetric({double horizontal = 0, double vertical = 0}) =>
+      EdgeInsets.symmetric(horizontal: horizontal, vertical: vertical);
 }

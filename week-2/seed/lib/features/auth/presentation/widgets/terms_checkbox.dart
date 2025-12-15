@@ -46,6 +46,7 @@ class TermsCheckbox extends StatelessWidget {
         SizedBox(
           width: 20.w,
           height: 20.h,
+
           child: Checkbox(
             value: isAccepted,
             onChanged: (value) => onTap(),

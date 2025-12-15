@@ -1,33 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:seed/core/constants/app_assets.dart';
 import 'package:seed/core/helpers/base_extensions/context/navigation.dart';
 import 'package:seed/core/helpers/base_extensions/context/padding.dart';
 import 'package:seed/core/helpers/helper_methods/spacing.dart';
-import 'package:seed/core/helpers/helper_methods/validators.dart';
 import 'package:seed/core/routing/routes.dart';
 import 'package:seed/core/theming/app_styles.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 import 'package:seed/core/widgets/app_text_button.dart';
-import 'package:seed/core/widgets/app_text_form_field.dart';
+import 'package:seed/features/auth/presentation/widgets/dont_have_account_text.dart';
+import 'package:seed/features/auth/presentation/widgets/login_bloc_listener.dart';
+import 'package:seed/features/auth/presentation/widgets/login_form.dart';
 import 'package:seed/features/auth/presentation/widgets/login_welcome_text.dart';
-import 'package:seed/features/auth/presentation/widgets/sign_up_text.dart';
+import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _phoneController = TextEditingController();
-
-  @override
-  void dispose() {
-    _phoneController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,33 +49,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     verticalSpace(32),
                     LoginWelcomeText(),
                     verticalSpace(40),
-                    AppTextFormField(
-                      label: 'رقم الجوال',
-                      controller: _phoneController,
-                      validator: Validators.validatePhone,
-                      textDirection: TextDirection.rtl,
-                    ),
+                    LoginForm(),
                     verticalSpace(32),
                     AppTextButton(
                       buttonText: 'تسجيل الدخول',
+
                       textStyle: AppStyles.font14WhiteHeavy,
                       onPressed: () {
-                        context.pushNamed(Routes.mainScreen);
+                        _validateThenLogin(context);
                       },
                     ),
                     verticalSpace(8),
-                    SignUpText(),
+                    DontHaveAccountText(),
                     verticalSpace(140),
                     AppTextButton(
                       buttonText: 'الدخول كزائر',
                       textStyle: AppStyles.font14PrimaryHeavy,
                       onPressed: () {
-                        // Handle guest login
+                        context.pushReplacementNamed(Routes.mainScreen);
                       },
                       backgroundColor: ColorsManager.white,
                       // borderColor: ColorsManager.primary,
                     ),
                     verticalSpace(32),
+                    const LoginBlocListener(),
                   ],
                 ),
               ),
@@ -95,5 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
+  }
+
+  void _validateThenLogin(BuildContext context) {
+    if (context.read<AuthCubit>().loginFormKey.currentState!.validate()) {
+      context.read<AuthCubit>().emitLoginStates();
+    }
   }
 }

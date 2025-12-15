@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:seed/core/helpers/base_extensions/context/padding.dart';
 import 'package:seed/core/helpers/helper_methods/spacing.dart';
 import 'package:seed/core/theming/app_styles.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 import 'package:seed/core/widgets/app_text_button.dart';
+import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:seed/features/auth/presentation/widgets/already_have_account_text.dart';
+import 'package:seed/features/auth/presentation/widgets/sign_up_bloc_listener.dart';
 import 'package:seed/features/auth/presentation/widgets/sign_up_form_fields.dart';
 import 'package:seed/features/auth/presentation/widgets/sign_up_header.dart';
 import 'package:seed/features/auth/presentation/widgets/sign_up_title_section.dart';
@@ -19,36 +22,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
   bool _isTermsAccepted = false;
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _phoneController.dispose();
-    _emailController.dispose();
-    super.dispose();
-  }
-
-  void _handleSignUp() {
-    if (_formKey.currentState!.validate()) {
-      if (_isTermsAccepted) {
-        // Handle sign up logic
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'يرجى الموافقة على الشروط والأحكام',
-              textDirection: TextDirection.rtl,
-            ),
-          ),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: Padding(
                 padding: context.symmetric(horizontal: 24.w),
                 child: Form(
-                  key: _formKey,
+                  key: context.read<AuthCubit>().signUpFormKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -79,9 +53,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       const SignUpTitleSection(),
                       verticalSpace(27),
                       SignUpFormFields(
-                        nameController: _nameController,
-                        phoneController: _phoneController,
-                        emailController: _emailController,
+                        nameController: context
+                            .read<AuthCubit>()
+                            .signUpNameController,
+                        phoneController: context
+                            .read<AuthCubit>()
+                            .signUpPhoneController,
+                        emailController: context
+                            .read<AuthCubit>()
+                            .signUpEmailController,
                       ),
                       verticalSpace(16),
                       TermsCheckbox(
@@ -97,11 +77,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       AppTextButton(
                         buttonText: 'انشاء حساب',
                         textStyle: AppStyles.font14WhiteHeavy,
-                        onPressed: _handleSignUp,
+                        onPressed: _validateThenSignUp,
                       ),
                       verticalSpace(8),
                       const AlreadyHaveAccountText(),
                       verticalSpace(40),
+                      const SignUpBlocListener(),
                     ],
                   ),
                 ),
@@ -111,5 +92,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  void _validateThenSignUp() {
+    if (context.read<AuthCubit>().signUpFormKey.currentState!.validate()) {
+      if (_isTermsAccepted) {
+        context.read<AuthCubit>().emitSignUpStates();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'يرجى الموافقة على الشروط والأحكام',
+              textDirection: TextDirection.rtl,
+            ),
+          ),
+        );
+      }
+    }
   }
 }

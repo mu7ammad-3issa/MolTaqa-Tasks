@@ -1,19 +1,28 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:seed/core/constants/app_constants.dart';
+import 'package:seed/core/helpers/base_extensions/context/navigation.dart';
 import 'package:seed/core/helpers/base_extensions/context/padding.dart';
 import 'package:seed/core/helpers/helper_methods/spacing.dart';
+import 'package:seed/core/routing/routes.dart';
 import 'package:seed/core/theming/app_styles.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 import 'package:seed/core/widgets/app_text_button.dart';
+import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:seed/features/auth/presentation/widgets/verify_otp_bloc_listener.dart';
 import 'package:seed/features/auth/presentation/widgets/verify_otp_description.dart';
-import 'package:seed/features/auth/presentation/widgets/verify_otp_header.dart';
+import 'package:seed/features/auth/presentation/widgets/auth_header_with_back.dart';
 import 'package:seed/features/auth/presentation/widgets/verify_otp_input.dart';
 import 'package:seed/features/auth/presentation/widgets/verify_otp_label.dart';
 import 'package:seed/features/auth/presentation/widgets/verify_otp_resend.dart';
 import 'package:seed/features/auth/presentation/widgets/verify_otp_title.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
-  const VerifyOtpScreen({super.key});
+  final String phoneNumber;
+
+  const VerifyOtpScreen({super.key, required this.phoneNumber});
 
   @override
   State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
@@ -21,11 +30,36 @@ class VerifyOtpScreen extends StatefulWidget {
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   final TextEditingController _otpController = TextEditingController();
-  final String _phoneNumber = '252 --- --- ---';
-  final String _remainingTime = '01:30';
+  Timer? _timer;
+  int _remainingSeconds = resendCodeTime; // 1:30 in seconds
+
+  @override
+  void initState() {
+    super.initState();
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingSeconds > 0) {
+        setState(() {
+          _remainingSeconds--;
+        });
+      } else {
+        _timer?.cancel();
+      }
+    });
+  }
+
+  String get _formattedTime {
+    final minutes = (_remainingSeconds ~/ 60).toString().padLeft(2, '0');
+    final seconds = (_remainingSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _otpController.dispose();
     super.dispose();
   }
@@ -37,7 +71,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       body: Column(
         children: [
           // Header with logo and back button
-          const VerifyOtpHeader(),
+          const AuthHeaderWithBack(),
           // Main content card
           Expanded(
             child: Container(
@@ -58,8 +92,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     const VerifyOtpTitle(),
                     verticalSpace(24),
                     VerifyOtpDescription(
-                      phoneNumber: _phoneNumber,
-                      remainingTime: _remainingTime,
+                      phoneNumber: widget.phoneNumber,
+                      remainingTime: _formattedTime,
+                      onChangeNumber: () => _handleChangeNumber(),
                     ),
                     verticalSpace(40),
                     const VerifyOtpLabel(),
@@ -71,7 +106,11 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                     verticalSpace(32),
                     _buildConfirmButton(),
                     verticalSpace(8),
-                    VerifyOtpResend(onResend: _handleResendCode),
+                    VerifyOtpResend(
+                      onResend: _handleResendCode,
+                      isEnabled: _remainingSeconds == 0,
+                    ),
+                    VerifyOtpBlocListener(onResendOtpSuccess: _resetTimer),
                   ],
                 ),
               ),
@@ -83,18 +122,23 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   }
 
   void _handleOtpCompleted(String otp) {
-    debugPrint('OTP Completed: $otp');
-    //
+    context.read<AuthCubit>().emitVerifyOtpStates(otp);
   }
 
   void _handleResendCode() {
-    debugPrint('Resend code requested');
-    // Handle resend code logic here
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('تم إعادة إرسال الكود', textDirection: TextDirection.rtl),
-      ),
-    );
+    context.read<AuthCubit>().emitResendOtpStates();
+  }
+
+  void _resetTimer() {
+    _timer?.cancel();
+    setState(() {
+      _remainingSeconds = resendCodeTime;
+    });
+    _startTimer();
+  }
+
+  void _handleChangeNumber() {
+    context.pushNamed(Routes.changeNumberScreen);
   }
 
   Widget _buildConfirmButton() {
@@ -103,8 +147,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
       onPressed: () {
         final otp = _otpController.text;
         if (otp.length == 4) {
-          debugPrint('OTP: $otp');
-          // Handle OTP verification logic
+          context.read<AuthCubit>().emitVerifyOtpStates(otp);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(

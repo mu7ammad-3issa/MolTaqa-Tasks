@@ -2,6 +2,7 @@ class Routes {
   static const String loginScreen = '/loginScreen';
   static const String signUpScreen = '/signUpScreen';
   static const String verifyOtpScreen = '/verifyOtpScreen';
+  static const String changeNumberScreen = '/changeNumberScreen';
   static const String homeScreen = '/homeScreen';
   static const String mainScreen = '/mainScreen';
   static const String allProjectsScreen = '/allProjectsScreen';

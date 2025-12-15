@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seed/core/di/dependency_injection.dart';
 import 'package:seed/core/routing/routes.dart';
+import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:seed/features/auth/presentation/screens/change_number_screen.dart';
 import 'package:seed/features/auth/presentation/screens/login_screen.dart';
 import 'package:seed/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:seed/features/auth/presentation/screens/verify_otp_screen.dart';
@@ -15,17 +19,35 @@ class AppRouter {
     switch (settings.name) {
       case Routes.loginScreen:
         return MaterialPageRoute(
-          builder: (_) => const LoginScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const LoginScreen(),
+          ),
           settings: settings,
         );
       case Routes.signUpScreen:
         return MaterialPageRoute(
-          builder: (_) => const SignUpScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const SignUpScreen(),
+          ),
           settings: settings,
         );
       case Routes.verifyOtpScreen:
+        final phoneNumber = arguments as String;
         return MaterialPageRoute(
-          builder: (_) => const VerifyOtpScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: VerifyOtpScreen(phoneNumber: phoneNumber),
+          ),
+          settings: settings,
+        );
+      case Routes.changeNumberScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const ChangeNumberScreen(),
+          ),
           settings: settings,
         );
       case Routes.homeScreen:

@@ -48,10 +48,10 @@ class SignUpFormFields extends StatelessWidget {
         AppTextFormField(
           label: 'البريد الالكتروني',
           controller: emailController,
-          hintText: 'ادخل البريد الالكتروني',
+          hintText: 'ادخل البريد الالكتروني (اختياري)',
           textDirection: TextDirection.rtl,
           suffixIcon: SvgPicture.asset(Assets.iconsSms),
-          validator: Validators.validateEmail,
+          validator: Validators.validateOptionalEmail,
         ),
       ],
     );

@@ -6,8 +6,8 @@ import 'package:seed/core/routing/routes.dart';
 import 'package:seed/core/theming/app_styles.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 
-class SignUpText extends StatelessWidget {
-  const SignUpText({super.key});
+class DontHaveAccountText extends StatelessWidget {
+  const DontHaveAccountText({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -31,14 +31,18 @@ dependencies:
   cupertino_icons: ^1.0.8
   dartz: ^0.10.1
   dio: ^5.9.0
+  pretty_dio_logger: ^1.4.0
   equatable: ^2.0.7
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_dotenv: ^6.0.0
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.2.3
   get_it: ^9.2.0
   pinput: ^6.0.1
+  shared_preferences: ^2.5.4
+  flutter_secure_storage: ^10.0.0
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -63,6 +67,7 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
+    - .env
     - assets/
     - assets/images/
     - assets/icons/

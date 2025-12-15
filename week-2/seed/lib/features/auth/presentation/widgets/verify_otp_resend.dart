@@ -6,27 +6,34 @@ import 'package:seed/core/theming/colors_manager.dart';
 
 class VerifyOtpResend extends StatelessWidget {
   final VoidCallback onResend;
+  final bool isEnabled;
 
-  const VerifyOtpResend({super.key, required this.onResend});
+  const VerifyOtpResend({
+    super.key,
+    required this.onResend,
+    this.isEnabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final color = isEnabled ? ColorsManager.primary : ColorsManager.gray;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
-          onTap: onResend,
+          onTap: isEnabled ? onResend : null,
           child: Column(
             children: [
               Text(
                 'اعادة ارسال الكود',
                 style: AppStyles.font14TextSecondaryMedium.copyWith(
-                  color: ColorsManager.primary,
+                  color: color,
                 ),
                 textDirection: TextDirection.rtl,
               ),
               verticalSpace(2),
-              Container(height: 1, width: 98.w, color: ColorsManager.primary),
+              Container(height: 1, width: 98.w, color: color),
             ],
           ),
         ),

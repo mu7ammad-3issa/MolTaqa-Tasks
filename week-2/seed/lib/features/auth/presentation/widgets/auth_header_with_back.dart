@@ -4,8 +4,8 @@ import 'package:seed/core/constants/app_assets.dart';
 import 'package:seed/core/helpers/base_extensions/context/navigation.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 
-class VerifyOtpHeader extends StatelessWidget {
-  const VerifyOtpHeader({super.key});
+class AuthHeaderWithBack extends StatelessWidget {
+  const AuthHeaderWithBack({super.key});
 
   @override
   Widget build(BuildContext context) {
