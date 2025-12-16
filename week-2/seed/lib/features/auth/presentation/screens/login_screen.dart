@@ -13,7 +13,7 @@ import 'package:seed/features/auth/presentation/widgets/dont_have_account_text.d
 import 'package:seed/features/auth/presentation/widgets/login_bloc_listener.dart';
 import 'package:seed/features/auth/presentation/widgets/login_form.dart';
 import 'package:seed/features/auth/presentation/widgets/login_welcome_text.dart';
-import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:seed/features/auth/presentation/cubit/auth_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

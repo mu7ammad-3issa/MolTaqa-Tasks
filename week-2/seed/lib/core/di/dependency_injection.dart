@@ -23,7 +23,12 @@ import 'package:seed/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:seed/features/auth/domain/use_cases/resend_otp_use_case.dart';
 import 'package:seed/features/auth/domain/use_cases/sign_up_use_case.dart';
 import 'package:seed/features/auth/domain/use_cases/verify_otp_use_case.dart';
-import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:seed/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:seed/features/home/data/data_sources/cities_remote_data_source.dart';
+import 'package:seed/features/home/data/repositories/cities_repo_impl.dart';
+import 'package:seed/features/home/domain/repositories/cities_repo.dart';
+import 'package:seed/features/home/domain/use_cases/get_cities_use_case.dart';
+import 'package:seed/features/home/presentation/cubit/cities_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -34,7 +39,7 @@ Future<void> setUpGetIt() async {
     () => ApiService(dio: dio, baseUrl: ApiConstants.baseUrl),
   );
 
-  // Data layer - Login
+  // Auth Data layer - Login
   getIt.registerLazySingleton<LoginRemoteDataSource>(
     () => LoginRemoteDataSourceImpl(getIt<ApiService>()),
   );
@@ -42,7 +47,7 @@ Future<void> setUpGetIt() async {
     () => LoginRepoImpl(getIt<LoginRemoteDataSource>()),
   );
 
-  // Data layer - Sign Up
+  // Auth Data layer - Sign Up
   getIt.registerLazySingleton<SignUpRemoteDataSource>(
     () => SignUpRemoteDataSourceImpl(getIt<ApiService>()),
   );
@@ -50,7 +55,7 @@ Future<void> setUpGetIt() async {
     () => SignUpRepoImpl(getIt<SignUpRemoteDataSource>()),
   );
 
-  // Data layer - Verify OTP
+  // Auth Data layer - Verify OTP
   getIt.registerLazySingleton<VerifyOtpRemoteDataSource>(
     () => VerifyOtpRemoteDataSourceImpl(getIt<ApiService>()),
   );
@@ -58,7 +63,7 @@ Future<void> setUpGetIt() async {
     () => VerifyOtpRepoImpl(getIt<VerifyOtpRemoteDataSource>()),
   );
 
-  // Data layer - Resend OTP
+  // Auth Data layer - Resend OTP
   getIt.registerLazySingleton<ResendOtpRemoteDataSource>(
     () => ResendOtpRemoteDataSourceImpl(getIt<ApiService>()),
   );
@@ -66,7 +71,7 @@ Future<void> setUpGetIt() async {
     () => ResendOtpRepoImpl(getIt<ResendOtpRemoteDataSource>()),
   );
 
-  // Data layer - Change Mobile
+  // Auth Data layer - Change Mobile
   getIt.registerLazySingleton<ChangeMobileRemoteDataSource>(
     () => ChangeMobileRemoteDataSourceImpl(getIt<ApiService>()),
   );
@@ -74,7 +79,7 @@ Future<void> setUpGetIt() async {
     () => ChangeMobileRepoImpl(getIt<ChangeMobileRemoteDataSource>()),
   );
 
-  // Domain layer
+  // Auth Domain layer
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(getIt<LoginRepo>()),
   );
@@ -91,7 +96,7 @@ Future<void> setUpGetIt() async {
     () => ChangeMobileUseCase(getIt<ChangeMobileRepo>()),
   );
 
-  // Presentation layer
+  // Auth Presentation layer
   getIt.registerFactory<AuthCubit>(
     () => AuthCubit(
       getIt<LoginUseCase>(),
@@ -100,5 +105,23 @@ Future<void> setUpGetIt() async {
       getIt<SignUpUseCase>(),
       getIt<ChangeMobileUseCase>(),
     ),
+  );
+
+  // Home Data layer - Cities
+  getIt.registerLazySingleton<CitiesRemoteDataSource>(
+    () => CitiesRemoteDataSourceImpl(getIt<ApiService>()),
+  );
+  getIt.registerLazySingleton<CitiesRepo>(
+    () => CitiesRepoImpl(getIt<CitiesRemoteDataSource>()),
+  );
+
+  // Home Domain layer - Cities
+  getIt.registerLazySingleton<GetCitiesUseCase>(
+    () => GetCitiesUseCase(getIt<CitiesRepo>()),
+  );
+
+  // Home Presentation layer - Cities
+  getIt.registerFactory<CitiesCubit>(
+    () => CitiesCubit(getIt<GetCitiesUseCase>()),
   );
 }

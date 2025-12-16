@@ -6,7 +6,7 @@ import 'package:seed/core/helpers/helper_methods/spacing.dart';
 import 'package:seed/core/theming/app_styles.dart';
 import 'package:seed/core/theming/colors_manager.dart';
 import 'package:seed/core/widgets/app_text_button.dart';
-import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:seed/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:seed/features/auth/presentation/widgets/auth_header_with_back.dart';
 import 'package:seed/features/auth/presentation/widgets/change_number_bloc_listener.dart';
 import 'package:seed/features/auth/presentation/widgets/change_number_form.dart';

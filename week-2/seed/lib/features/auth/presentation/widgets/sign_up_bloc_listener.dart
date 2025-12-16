@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seed/core/helpers/base_extensions/context/navigation.dart';
 import 'package:seed/core/routing/routes.dart';
 import 'package:seed/core/widgets/loading_dialog.dart';
-import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:seed/features/auth/presentation/cubit/login_state.dart';
+import 'package:seed/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:seed/features/auth/presentation/cubit/auth_state.dart';
 
 class SignUpBlocListener extends StatelessWidget {
   const SignUpBlocListener({super.key});

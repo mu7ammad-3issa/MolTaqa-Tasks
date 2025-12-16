@@ -7,7 +7,7 @@ import 'package:seed/features/auth/domain/use_cases/login_use_case.dart';
 import 'package:seed/features/auth/domain/use_cases/resend_otp_use_case.dart';
 import 'package:seed/features/auth/domain/use_cases/sign_up_use_case.dart';
 import 'package:seed/features/auth/domain/use_cases/verify_otp_use_case.dart';
-import 'package:seed/features/auth/presentation/cubit/login_state.dart';
+import 'package:seed/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {

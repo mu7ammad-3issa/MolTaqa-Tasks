@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:seed/core/helpers/helper_methods/validators.dart';
 import 'package:seed/core/widgets/app_text_form_field.dart';
-import 'package:seed/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:seed/features/auth/presentation/cubit/auth_cubit.dart';
 
 class ChangeNumberForm extends StatelessWidget {
   const ChangeNumberForm({super.key});
