@@ -1,4 +1,4 @@
-import 'package:seed/features/home/data/models/city_model.dart';
+import 'package:seed/features/home/data/models/cities_response_model/city_model.dart';
 
 class CitiesResponseModel {
   final List<CityModel> data;

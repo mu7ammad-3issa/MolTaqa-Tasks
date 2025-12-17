@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:seed/core/constants/app_assets.dart';
@@ -6,30 +5,31 @@ import 'package:seed/core/helpers/base_extensions/context/padding.dart';
 import 'package:seed/core/helpers/helper_methods/spacing.dart';
 import 'package:seed/core/theming/app_styles.dart';
 import 'package:seed/core/theming/colors_manager.dart';
+import 'package:seed/features/home/domain/entities/advertisement_entity.dart';
 import 'package:seed/features/home/presentation/widgets/project_info_row.dart';
-import 'package:shimmer/shimmer.dart';
 
-class ProjectCard extends StatelessWidget {
-  final String title;
-  final String location;
-  final String type;
-  final String amount;
-  final String percentage;
-  final String evaluation;
-  final String imageUrl;
-  final bool isElectronic;
+class AdvertisementCard extends StatelessWidget {
+  final AdvertisementEntity advertisement;
 
-  const ProjectCard({
-    super.key,
-    required this.title,
-    required this.location,
-    required this.type,
-    required this.amount,
-    required this.percentage,
-    required this.evaluation,
-    required this.imageUrl,
-    this.isElectronic = true,
-  });
+  const AdvertisementCard({super.key, required this.advertisement});
+
+  String _formatNumber(num number) {
+    final intValue = number.toInt();
+    return intValue.toString().replaceAllMapped(
+      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+      (Match m) => '${m[1]},',
+    );
+  }
+
+  String _formatMoney(num? amount) {
+    if (amount == null) return '-';
+    return '${_formatNumber(amount)} ريال';
+  }
+
+  String _formatEvaluation(num? amount) {
+    if (amount == null) return '-';
+    return _formatNumber(amount);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,61 +51,40 @@ class ProjectCard extends StatelessWidget {
     );
   }
 
-  bool get _isNetworkImage =>
-      imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
-
   Widget _buildProjectImage() {
-    if (_isNetworkImage) {
-      return CachedNetworkImage(
-        imageUrl: imageUrl,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(4.r),
+      child: Image.network(
+        advertisement.mainImage,
         width: 97.w,
         height: 103.h,
         fit: BoxFit.cover,
-        progressIndicatorBuilder: (context, url, downloadProgress) =>
-            Shimmer.fromColors(
-              baseColor: ColorsManager.darkGray,
-              highlightColor: ColorsManager.white,
-              child: Container(
-                width: 97.w,
-                height: 103.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(4.r),
-                  color: ColorsManager.white,
-                ),
-              ),
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: 97.w,
+            height: 103.h,
+            color: ColorsManager.lighterGray,
+            child: Icon(
+              Icons.image_not_supported,
+              color: ColorsManager.textSecondary,
             ),
-        imageBuilder: (context, imageProvider) => Container(
-          width: 97.w,
-          height: 103.h,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(4.r),
-            image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-          ),
-        ),
-      );
-    }
-
-    // Local asset image
-    return Container(
-      width: 97.w,
-      height: 103.h,
-      decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(4.r),
-        image: DecorationImage(image: AssetImage(imageUrl), fit: BoxFit.cover),
+          );
+        },
       ),
     );
   }
 
   Widget _buildProjectDetails() {
+    final isElectronic = advertisement.isOnline == 1;
+    final location = advertisement.city ?? '-';
+    final type = isElectronic ? 'الكتروني' : 'غير الكتروني';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          title,
+          advertisement.name,
           textAlign: TextAlign.right,
           style: AppStyles.font14DarkBlueMedium.copyWith(
             color: ColorsManager.black,
@@ -120,11 +99,16 @@ class ProjectCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                ProjectInfoRow(icon: Assets.iconsMoneySend, text: amount),
+                ProjectInfoRow(
+                  icon: Assets.iconsMoneySend,
+                  text: _formatMoney(advertisement.askMoney),
+                ),
                 verticalSpace(4),
                 ProjectInfoRow(
                   icon: Assets.iconsPercentageCircle,
-                  text: percentage,
+                  text: advertisement.partnershipRatio != null
+                      ? '${advertisement.partnershipRatio} %'
+                      : '-',
                 ),
               ],
             ),
@@ -155,7 +139,7 @@ class ProjectCard extends StatelessWidget {
                 style: AppStyles.font12TextSecondaryLight,
               ),
               TextSpan(
-                text: evaluation,
+                text: _formatEvaluation(advertisement.totalProjectEvaluation),
                 style: AppStyles.font14PrimaryHeavy.copyWith(fontSize: 12.sp),
               ),
             ],

@@ -24,11 +24,15 @@ import 'package:seed/features/auth/domain/use_cases/resend_otp_use_case.dart';
 import 'package:seed/features/auth/domain/use_cases/sign_up_use_case.dart';
 import 'package:seed/features/auth/domain/use_cases/verify_otp_use_case.dart';
 import 'package:seed/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:seed/features/home/data/data_sources/advertisements_remote_data_source.dart';
 import 'package:seed/features/home/data/data_sources/cities_remote_data_source.dart';
+import 'package:seed/features/home/data/repositories/advertisements_repo_impl.dart';
 import 'package:seed/features/home/data/repositories/cities_repo_impl.dart';
+import 'package:seed/features/home/domain/repositories/advertisements_repo.dart';
 import 'package:seed/features/home/domain/repositories/cities_repo.dart';
+import 'package:seed/features/home/domain/use_cases/get_advertisements_use_case.dart';
 import 'package:seed/features/home/domain/use_cases/get_cities_use_case.dart';
-import 'package:seed/features/home/presentation/cubit/cities_cubit.dart';
+import 'package:seed/features/home/presentation/cubit/home_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -120,8 +124,22 @@ Future<void> setUpGetIt() async {
     () => GetCitiesUseCase(getIt<CitiesRepo>()),
   );
 
-  // Home Presentation layer - Cities
-  getIt.registerFactory<CitiesCubit>(
-    () => CitiesCubit(getIt<GetCitiesUseCase>()),
+  // Home Data layer - Advertisements
+  getIt.registerLazySingleton<AdvertisementsRemoteDataSource>(
+    () => AdvertisementsRemoteDataSourceImpl(getIt<ApiService>()),
+  );
+  getIt.registerLazySingleton<AdvertisementsRepo>(
+    () => AdvertisementsRepoImpl(getIt<AdvertisementsRemoteDataSource>()),
+  );
+
+  // Home Domain layer - Advertisements
+  getIt.registerLazySingleton<GetAdvertisementsUseCase>(
+    () => GetAdvertisementsUseCase(getIt<AdvertisementsRepo>()),
+  );
+
+  // Home Presentation layer
+  getIt.registerFactory<HomeCubit>(
+    () =>
+        HomeCubit(getIt<GetCitiesUseCase>(), getIt<GetAdvertisementsUseCase>()),
   );
 }

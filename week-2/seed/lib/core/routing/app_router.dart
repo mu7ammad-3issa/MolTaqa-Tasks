@@ -7,7 +7,7 @@ import 'package:seed/features/auth/presentation/screens/change_number_screen.dar
 import 'package:seed/features/auth/presentation/screens/login_screen.dart';
 import 'package:seed/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:seed/features/auth/presentation/screens/verify_otp_screen.dart';
-import 'package:seed/features/home/presentation/cubit/cities_cubit.dart';
+import 'package:seed/features/home/presentation/cubit/home_cubit.dart';
 import 'package:seed/features/home/presentation/screens/all_projects_screen.dart';
 import 'package:seed/features/home/presentation/screens/home_screen.dart';
 import 'package:seed/features/main/presentation/main_screen.dart';
@@ -54,7 +54,7 @@ class AppRouter {
       case Routes.homeScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<CitiesCubit>(),
+            create: (context) => getIt<HomeCubit>(),
             child: const HomeScreen(),
           ),
           settings: settings,
@@ -62,14 +62,22 @@ class AppRouter {
       case Routes.mainScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<CitiesCubit>(),
+            create: (context) => getIt<HomeCubit>(),
             child: const MainScreen(),
           ),
           settings: settings,
         );
       case Routes.allProjectsScreen:
+        final args = arguments as Map<String, dynamic>;
+        final cityId = args['cityId'] as int?;
+        final cityName = args['cityName'] as String;
         return MaterialPageRoute(
-          builder: (_) => const AllProjectsScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                getIt<HomeCubit>()
+                  ..getAdvertisements(cityId: cityId, cityName: cityName),
+            child: AllProjectsScreen(cityName: cityName),
+          ),
           settings: settings,
         );
       default:
